@@ -1,17 +1,17 @@
 .tree-lottie {
     aspect-ratio: 2/ 1;
     transform: scale(1);
-    background-color: turquoise;
-    border-radius: 0%; /* Start square or slightly rounded */
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 100%; /* Start square or slightly rounded */
 }
 
 .tree-zoom {
-    background-color: rgb(230, 0, 0);
-    border-radius: 100%;
-    transition: background-color 2s ease-in-out, border-radius 1s ease;
+    background-color: rgb(183, 221, 233);
+    border-radius: 0%;
+    transition: background-color 2s ease-in-out, border-radius 2.5s ease;
 }
 
 .tree-move {
-    transform: translateY(0px) scale(1);
+    transform: translateY() scale(0);
     transition: all 2s ease-in;
 }
