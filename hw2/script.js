@@ -12,6 +12,8 @@ window.addEventListener('load', () => {
             treeWrapper.classList.add('tree-zoom');
             await wait(300);
             treeWrapper.classList.add('tree-move');
+            await wait(1000);
+            treeLottie.resize();
         }
     }); 
 });
