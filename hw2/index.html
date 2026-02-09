@@ -9,29 +9,30 @@
 		<link rel="stylesheet" href="styles.css"/>
 		<script src="script.js"></script>
         <script type="module" src="https://unpkg.com/@lottiefiles/dotlottie-wc@latest/dist/dotlottie-wc.js"></script>
+		<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 	</head>
 	<body>
-		<header>
-			<h1>Applus +</h1>
-			<nav>
-				<ul>
-					<li><a href="#">Home</a></li>			
-					<div class="tree-lottie">
-						<dotlottie-wc id="treeLottie" src='animation/Tree.json'></dotlottie-wc>
-					</div>
-				</ul>
-			</nav>
-		</header>
-		<main>
-			<section>
-				<h2>Section Heading</h2>
-
-				<p>Introductory paragraph describing this section.</p>
-			</section>
-		</main>
-
-		<footer>
-			<p>&copy; 2026 Your Name</p>
-		</footer>
+		<MainBody>
+			<header>
+				<h1>Applus +</h1>
+				<nav>
+					<ul>
+						<li><a href="#">Home</a></li>			
+					</ul>
+				</nav>
+			</header>
+			<main>
+				<div class="tree-lottie">
+					<dotlottie-wc id="treeLottie" src='animation/Tree.json'></dotlottie-wc>
+				</div>
+				<model-viewer
+					src="models/mokoko_seed.glb"
+					alt="seed"
+					shadow-intensity="0"
+					id = "seedModel"
+					>
+				</model-viewer>
+			</main>
+		</MainBody>
 	</body>
 </html>
