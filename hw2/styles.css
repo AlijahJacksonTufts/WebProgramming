@@ -6,8 +6,8 @@
     --bgColor: rgba(255, 255, 255, 0.87);
     --transparentColor: rgba(255, 255, 255, 0.562);
     --textColor: rgb(20, 20, 20);
-    background-image: url(images/note2.jpg);
-    background-size: 50%;
+    background-image: url(images/note3.jpg);
+    background-size: 70%;
     background-repeat: repeat;
     --sectionWidth: 85%;
     --subsectionWidth: 70%;
@@ -111,7 +111,6 @@
 
 .button1 {
     background-color: var(--boldColor);
-    /* Green background */
     border: var(--boldColor) solid 2px;
     color: var(--bgColor);
     padding: 2px 15px;

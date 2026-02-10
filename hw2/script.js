@@ -4,14 +4,6 @@ window.addEventListener('load', () => {
     const treeLottie = document.getElementById('treeLottie').dotLottie;
     treeLottie.resize();
 
-    document.addEventListener('click', async () => {
-        if (treeLottie && !treeClicked) {
-            treeClicked = true;
-            treeLottie.play();
-        }
-    }); 
-    
-
     treeLottie.addEventListener('complete', async () => {
         flipCard();
     });
