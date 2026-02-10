@@ -5,11 +5,12 @@
     --boldAccentColor: rgb(117, 54, 54);
     --bgColor: rgba(255, 255, 255, 0.87);
     --transparentColor: rgba(255, 255, 255, 0.562);
-    background-image: url(images/note.jpg);
-    background-size: cover;
+    --textColor: rgb(20, 20, 20);
+    background-image: url(images/note2.jpg);
+    background-size: 50%;
     background-repeat: repeat;
-    --sectionWidth: 85% 
-    --subsectionWidth: 35%;
+    --sectionWidth: 85%;
+    --subsectionWidth: 70%;
 }
 
 .topSection {
@@ -26,8 +27,6 @@
     max-width: 40%;
 }
 
-
-
 .topSection-text h1 {
     font-size: 4rem;
     color: var(--accentColor);
@@ -41,7 +40,7 @@
 }
 
 .sub-section {
-    padding: 80px 10%;
+    padding: 2% 10%;
     max-width: var(--subsectionWidth);
     background-color: var(--transparentColor);
     text-align: center;
@@ -61,9 +60,54 @@
     font-size: 1.4rem;
     line-height: 1.8;
     color: var(--accentColor);
-    /* Dark green for readability */
     font-weight: 300;
 }
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3,2fr); 
+    gap: 2%
+}
+
+.grid-card {
+    background: var(--bgColor);
+    padding: 7%;
+    border-radius: 5%;
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.grid-card:hover {
+    transform: translateY(-5px) scale(1.05);
+}
+
+.grid-card:hover .grid-icon{
+    color: var(--textColor);
+}
+
+.grid-icon {
+    color: var(--boldColor);
+    display: block;
+    align-self: center;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    transition: all 0.1s ease;
+}
+
+.grid-card h4 {
+    margin: 0 0 10px 0;
+    color: var(--accentColor);
+    font-size: 1.3rem;
+}
+
+.grid-card p {
+    margin: 0;
+    color: var(--textColor);
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+
 
 .button1 {
     background-color: var(--boldColor);
