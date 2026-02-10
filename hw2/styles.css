@@ -1,28 +1,84 @@
-
-:root{
-    --background-color: #afffb3;
-    background-color: var(--background-color);
-    --transition-color: rgb(255, 255, 255);
-
-    background: radial-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
-    background-repeat: no-repeat
-    pointer-events: none; /* Allows clicks to pass through the overlay to content beneath */
+:root {
+    --mainColor: #318f46;
+    --accentColor: rgb(7, 77, 19);
+    --boldColor: rgb(160, 42, 42);
+    --boldAccentColor: rgb(117, 54, 54);
+    --bgColor: rgba(255, 255, 255, 0.87);
+    --transparentColor: rgba(255, 255, 255, 0.562);
+    background-image: url(images/note.jpg);
+    background-size: cover;
+    background-repeat: repeat;
+    --sectionWidth: 85% 
+    --subsectionWidth: 35%;
 }
 
-.tree-open {
-    background-color: var(--transition-color);
-    border-radius: 0%;
-    transition: all 1.3s ease-in;
+.topSection {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: var(--sectionWidth);
+    padding: 5% 5%;
+    border-radius: 10%;
+    background-color: var(--transparentColor);
 }
 
-.tree-move {
-    background-color: var(--transition-color);
-    translate: 0px 100px;
-    transition: all 1.3s ease-in;
+.topSection-text {
+    max-width: 40%;
 }
 
 
-.MainBodyChanged {
-    background-color: rgb(9, 255, 9);
-    transition: background-color 1.3s ease-in;
+
+.topSection-text h1 {
+    font-size: 4rem;
+    color: var(--accentColor);
+    margin-bottom: 20px;
+}
+
+.topSection-text h2 {
+    font-size: 1.25rem;
+    color: var(--mainColor);
+    margin-bottom: 20px;
+}
+
+.sub-section {
+    padding: 80px 10%;
+    max-width: var(--subsectionWidth);
+    background-color: var(--transparentColor);
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.sub-section-title {
+    font-size: 2.5rem;
+    color: var(--boldColor);
+    margin-bottom: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.sub-section-text {
+    font-size: 1.4rem;
+    line-height: 1.8;
+    color: var(--accentColor);
+    /* Dark green for readability */
+    font-weight: 300;
+}
+
+.button1 {
+    background-color: var(--boldColor);
+    /* Green background */
+    border: var(--boldColor) solid 2px;
+    color: var(--bgColor);
+    padding: 2px 15px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 7%;
+    margin: 0px 20px 0px 0px;
+    transition: all 0.2s ease-in-out;
+}
+
+.button1:hover {
+    background-color: var(--boldAccentColor);
+    scale: 1.05;
 }
