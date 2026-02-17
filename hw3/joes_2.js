@@ -1,14 +1,7 @@
-import { 
-    PRICE_HOTDOG, 
-    PRICE_FRIES, 
-    PRICE_SODA, 
-    MEAL_DEAL_PRICE, 
-    DISCOUNT_MEAL_RATE, 
-    DISCOUNT_MEAL_THRESHOLD, 
-    TAX_RATE } 
-from "./joes_constants.js";
-
-let Items = ["Hotdogs", "French Fries", "Drinks"];
+const MEAL_DEAL_PRICE = 10.00;
+const DISCOUNT_MEAL_RATE = 0.1;
+const DISCOUNT_MEAL_THRESHOLD = 30.00; 
+const TAX_RATE = 0.0625;
 
 const menuPrices = {
     "Hotdogs": 5.25,
@@ -16,14 +9,25 @@ const menuPrices = {
     "Drinks": 2.50
 };
 
+const menuText = `
+Hotdogs: $${menuPrices["Hotdogs"]}
+Fries: $${menuPrices["French Fries"]}
+Sodas: $${menuPrices["Drinks"]}`;
+
+let specialText = `
+Meal Deal: 1 Dog, 1 Fry, 1 Drink for $${MEAL_DEAL_PRICE}
+${DISCOUNT_MEAL_RATE * 100}% off orders of $${DISCOUNT_MEAL_THRESHOLD} or more!`;
+
+alert("Welcome to Joe's Hotdogs!!\n" + menuText + "\n" + specialText);
+
 let orderQuantities = {
     "Hotdogs": 0,
     "French Fries": 0,
     "Drinks": 0
 };
 
-for (let item of Items) {
-    let qty = prompt("How many " + item + " would you like?");
+for (let item in menuPrices) {
+    let qty = prompt(`How many ${item} would you like?`);
     orderQuantities[item] = parseInt(qty) || 0;
 }
 
@@ -44,33 +48,36 @@ let numFries = orderQuantities["French Fries"];
 let numSoda = orderQuantities["Drinks"];
 
 let numMeals = Math.min(numDogs, numFries, numSoda);
-let subtotal = (numMeals * 10.00) + 
+let subtotal = (numMeals * MEAL_DEAL_PRICE) + 
                ((numDogs - numMeals) * menuPrices["Hotdogs"]) + 
                ((numFries - numMeals) * menuPrices["French Fries"]) + 
                ((numSoda - numMeals) * menuPrices["Drinks"]);
 
-let rawSubtotal = subtotal;
+let originalSubtotal = subtotal;
 
 let discount = 0;
-if (subtotal >= 30) {
-    discount = subtotal * 0.10;
+if (subtotal >= DISCOUNT_MEAL_THRESHOLD) {
+    discount = subtotal * DISCOUNT_MEAL_RATE;
     subtotal -= discount;
 }
 
-let tax = subtotal * 0.0625;
+let tax = subtotal * TAX_RATE;
 let finalTotal = subtotal + tax;
 
 document.body.innerHTML = `
-    <h1>Joe's Hotdog Stand - Version 2</h1>
+    <h1>Joe's Hotdog Receipt (Version 2)</h1>
     <div class="receipt">
-        <p>Hotdogs: ${numDogs} ($${showMoney(numDogs * menuPrices["Hotdogs"])})</p>
-        <p>Fries: ${numFries} ($${showMoney(numFries * menuPrices["French Fries"])})</p>
-        <p>Drinks: ${numSoda} ($${showMoney(numSoda * menuPrices["Drinks"])})</p>
+        <p>Ordered Food: </p>
+        <ul>
+            <li>Hotdogs: ${numDogs} ($${showMoney(numDogs * menuPrices["Hotdogs"])})</li>
+            <li>Fries: ${numFries} ($${showMoney(numFries * menuPrices["French Fries"])})</li>
+            <li>Sodas: ${numSoda} ($${showMoney(numSoda * menuPrices["Drinks"])})</li>
+        </ul>
         <hr>
-        <p>Subtotal before discount: $${showMoney(rawSubtotal)}</p>
+        <p>Subtotal (w/out Discount): $${showMoney(originalSubtotal)}</p>
         <p>Discount: -$${showMoney(discount)}</p>
         <p>New Subtotal: $${showMoney(subtotal)}</p>
-        <p>Tax: $${showMoney(tax)}</p>
-        <h2>Final Total: $${showMoney(finalTotal)}</h2>
+        <p>Tax (${TAX_RATE * 100}%): $${showMoney(tax)}</p>
+        <h2>Total: $${showMoney(finalTotal)}</h2>
     </div>
 `;
