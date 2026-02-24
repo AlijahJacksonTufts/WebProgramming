@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe 1</title>
+    <style>
+        :root{
+            --Player1: #1201ff;
+            --Player2: #f50000;
+            --Player1Hover: #a6c7f7;
+            --Player2Hover: #f7a6a6;
+            
+            --SquareSize: 100px;
+            --BoardSize: calc(3.4 * var(--SquareSize));
+        }
+
+        .board{
+            background-image: url(images/boardBackground.jpg);
+            background-size: 100%;
+            width: var(--BoardSize);
+            height: var(--BoardSize);
+            padding: 10px;
+            border-radius: 25px;
+            display: inline-block;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+
+        .square {
+            width: var(--SquareSize);
+            height: var(--SquareSize);
+            margin: 5px;
+            background-color: rgba(0, 0, 0, 0.308);
+            border: black solid 1px;
+            text-align: center;
+            vertical-align: top;
+            font-size: calc(0.7 * var(--SquareSize));
+            line-height: var(--SquareSize);
+            display: inline-block;
+            border-radius: 6px;
+            transition: all 0.1s ease;
+        }
+
+        .square:hover {
+            transform: scale(1.05);
+            background-color: rgba(253, 252, 252, 0.63);
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="board">
+        <div class="square">X</div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square">X</div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square">O</div>
+    </div>
+</body>
+</html>

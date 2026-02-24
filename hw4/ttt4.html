@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe 4</title>
+    <style>
+        :root{
+            --Player1: #1201ff;
+            --Player2: #f50000;
+            --Player1Hover: #71aaff8c;
+            --Player2Hover: #fc898983;
+
+            --SquareBackground: rgba(0, 0, 0, 0.308);
+            
+
+            --GameProgressBackround: #ffffcc;
+            --SquareSize: 100px;
+            --BoardSize: calc(3.4 * var(--SquareSize));
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--Player1Background);
+            font-family: sans-serif;
+        }
+
+        .board{
+            background-image: url(images/boardBackground.jpg);
+            background-size: 100%;
+            width: var(--BoardSize);
+            height: var(--BoardSize);
+            padding: 10px;
+            border-radius: 25px;
+            display: inline-block;
+            margin: 20px;
+
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+
+        .square {
+            width: var(--SquareSize);
+            height: var(--SquareSize);
+            margin: 5px;
+            background-color: rgba(0, 0, 0, 0.308);
+            border: black solid 1px;
+            text-align: center;
+            vertical-align: top;
+            font-size: calc(0.7 * var(--SquareSize));
+            line-height: var(--SquareSize);
+            display: inline-block;
+            border-radius: 6px;
+            transition: all 0.1s ease;
+        }
+
+        #turn-text, #game-status {
+            border: black solid 1px;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            font-weight: bold;
+            width: calc(0.9 * var(--BoardSize));
+        }
+
+        #turn-text {
+            background-color: #000000;
+            color: white;
+        }
+
+        #game-status {
+            background-color: var(--GameProgressBackround);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.1s;
+        }
+
+        #game-status:hover {
+            scale: 1.05;
+        }
+
+        .scoreboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            width: var(--BoardSize);
+            margin-bottom: 10px;
+            grid-gap: 10px;
+        }
+
+        .score-box {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        .score-val { 
+            font-size: 1.5rem; 
+            display: block; 
+        }
+        
+    </style>
+</head>
+<body>
+
+    <h1 class= "game-title">Tic-Tac-Toe: Part 4</h1>
+    
+    <div class="scoreboard">
+        <div class="score-box" style="border: 2px solid var(--Player2);">
+            Player X <span id="scoreX" class="score-val">0</span>
+        </div>
+        <div class="score-box">
+            Draws <span id="scoreDraw" class="score-val">0</span>
+        </div>
+        <div class="score-box" style="border: 2px solid var(--Player1);">
+            Player O <span id="scoreO" class="score-val">0</span>
+        </div>
+    </div>
+    
+    <div id="turn-text"> [ - ] Turn to Play</div>
+
+    <div class="board">
+        <script>
+            const NUM_SQUARES = 9;
+            for (i=0; i < NUM_SQUARES; i++)
+            {
+                id = "sq"+i;
+                document.write( "<div class='square' id='" + id + "'></div>" );
+            }
+        </script>
+    </div>
+
+    <div id="game-status">Start Game</div>
+
+    <script>
+        //HELPER FUNCTIONS 
+        function getSquarebyID(id){
+            return document.getElementById("sq"+ id);
+        }
+
+        function getSquare(row, col)
+        {
+            return getSquarebyID(row * 3 + col);
+        }
+
+        function logMove(squareNum, player)
+        {
+            let row = Math.floor(squareNum / 3);
+            let col = squareNum % 3;
+            console.log(player + " placed on square " + squareNum + " (Row: " + row + ", Col: " + col + ")");
+        }
+
+        //SETTING UP
+        let playerTurn = "";
+        let = progressText = "Game in Progress";
+        let gameinProgress = false;
+        const WIN_CONDITIONS = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // ROWS
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // COLS
+            [0, 4, 8], [2, 4, 6]             // DIAGONALS
+        ];
+        let scoreX = 0;
+        let scoreO = 0;
+        let draws = 0;
+        
+        function handleSquareClick(event) 
+        {
+            let sqId = this.id;
+            let sqNum = parseInt(sqId.substring(2));
+            if(this.innerHTML != "" || playerTurn == "" || !gameinProgress) return;
+
+            this.innerHTML = playerTurn;
+
+            logMove(sqNum, playerTurn);
+            if(checkWin()) return;
+            UpdateTurn();
+        }
+
+        function handleSquareHover(event)
+        {
+            if(this.innerHTML != "" || playerTurn == "" || !gameinProgress) return;
+            
+            this.style.transform = "scale(1.1)";
+            if(playerTurn == "X")
+            {
+                this.style.backgroundColor = "var(--Player2Hover)";
+            }
+            else
+            {
+                this.style.backgroundColor = "var(--Player1Hover)";
+            }
+        }
+
+        function handleSquareHoverOut(event)
+        {
+            if(this.innerHTML != "" || playerTurn == "") return;
+
+            this.style.transform = "scale(1)";
+            this.style.backgroundColor = "var(--SquareBackground)";
+        }
+
+        
+        function setupBoard(){
+            for(i=0; i < NUM_SQUARES; i++)
+            {
+                getSquarebyID(i).onclick = handleSquareClick;
+                getSquarebyID(i).onmouseover = handleSquareHover;
+                getSquarebyID(i).onmouseout = handleSquareHoverOut;
+            }
+
+            document.getElementById("game-status").onclick = resetGame;
+            document.getElementById("game-status").innerHTML = progressText;
+        }
+
+        function UpdateTurn(){
+            if(playerTurn == "") playerTurn = Math.random() < 0.5 ? "X" : "O";
+
+            if(playerTurn == "X")
+            {
+                playerTurn = "O";
+                document.getElementById("turn-text").innerHTML = "[ O ] Turn to Play";
+                document.getElementById("turn-text").style.backgroundColor = "var(--Player1)";
+            }
+            else
+            {
+                playerTurn = "X";
+                document.getElementById("turn-text").innerHTML = "[ X ] Turn to Play";
+                document.getElementById("turn-text").style.backgroundColor = "var(--Player2)";
+            }
+        }
+
+        function checkWin() {
+            let winner = "";
+
+            WIN_CONDITIONS.forEach(condition => {
+                const sq1 = getSquarebyID(condition[0]).innerHTML;
+                const sq2 = getSquarebyID(condition[1]).innerHTML;
+                const sq3 = getSquarebyID(condition[2]).innerHTML;
+
+                if (sq1 !== "" && sq1 === sq2 && sq1 === sq3) {
+                    winner = playerTurn;
+                }
+            });
+
+            if (winner !== "") {
+                endGame(`Player ${winner} Wins!`);
+                if(playerTurn == "X")
+                {
+                    document.getElementById("game-status").style.backgroundColor = "var(--Player2Hover)";
+                    scoreX++;
+                    document.getElementById("scoreX").innerHTML = scoreX;
+                }
+                else
+                {
+                    document.getElementById("game-status").style.backgroundColor = "var(--Player1Hover)";
+                    scoreO++;
+                    document.getElementById("scoreO").innerHTML = scoreO;
+                }
+                return true;
+            }
+
+            let isDraw = true;
+            for (let i = 0; i < NUM_SQUARES; i++) {
+                if (getSquarebyID(i).innerHTML === "") isDraw = false;
+            }
+
+            if (isDraw) {
+                draws++;
+                document.getElementById("scoreDraw").innerHTML = draws;
+                endGame("It's a Draw!");
+                return true;
+            }
+
+            return false;
+        }
+
+        function endGame(message) {
+            gameinProgress = false;
+            document.getElementById("game-status").innerHTML = message + " (Click to Restart)";
+            document.getElementById("turn-text").innerHTML = "GAME OVER";
+            document.getElementById("turn-text").style.backgroundColor = "#555";
+            console.log(message);
+        }
+
+        function resetGame() {
+            for (let i = 0; i < NUM_SQUARES; i++) {
+                let sq = getSquarebyID(i);
+                sq.innerHTML = "";
+                sq.style.backgroundColor = "var(--SquareBackground)";
+                sq.style.transform = "scale(1)";
+            }
+
+            playerTurn = ""; 
+            document.getElementById("game-status").innerHTML = progressText;
+            document.getElementById("game-status").style.backgroundColor = "var(--GameProgressBackround)";
+            console.log("GAME RESET");
+            startGame();
+        }
+
+        function startGame(){
+            console.log("GAME STARTED");
+            gameinProgress = true;
+            UpdateTurn();
+        }
+        
+        setupBoard();
+        startGame();
+
+    </script>
+</body>
+
+</html>
