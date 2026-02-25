@@ -125,7 +125,7 @@
         {
             let row = Math.floor(squareNum / 3);
             let col = squareNum % 3;
-            console.log("Player " + player + " played on square " + squareNum + " (Row: " + row + ", Col: " + col + ")");
+            console.log(player + " placed on square " + squareNum + " (Row: " + row + ", Col: " + col + ")");
         }
 
         //SETTING UP
@@ -205,10 +205,10 @@
                 sq.innerHTML = "";
                 sq.style.backgroundColor = "var(--SquareBackground)";
                 sq.style.transform = "scale(1)";
+
             }
 
             playerTurn = ""; 
-
             console.log("GAME RESET");
             startGame();
         }
