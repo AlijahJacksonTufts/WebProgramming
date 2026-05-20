@@ -18,16 +18,16 @@
         <div id="myApp"></div>
 
         <script type="text/babel">
-            var title = "My React App";
-            text = 
+            var channels = ["Finance", "Weather", "Sports"];
+
+            var text = 
             <>
             <select>
-                <option>Finance</option>
-                <option>Weather</option>
-                <option>Sports</option>
+                {channels.map((val) => <option>{val}</option>)}
             </select>
+    
             </>;
-            ReactDOM.render(text, myApp);
+            ReactDOM.render(text, myApp); 
         </script>
     </body>
 </html>

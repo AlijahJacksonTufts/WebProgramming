@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products JSON</title>
+</head>
+<body>
+
+<script>
+    var products = [
+        {
+            "name": "Vintage T-Shirt",
+            "description": "Tie-dye Grateful Dead T-shirt from the 1980s tour",
+            "price": "$35.00",
+            "categories": ["clothing", "vintage"]
+        },
+        {
+            "name": "Leather Jacket",
+            "description": "Classic black leather biker jacket with silver zipper details",
+            "price": "$120.00",
+            "categories": ["clothing", "outwear"]
+        },
+        {
+            "name": "Vinyl Record Dark Side of the Moon",
+            "description": "Original 1973 Pink Floyd vinyl record in excellent condition",
+            "price": "$75.00",
+            "categories": ["music", "vintage", "collectibles"]
+        },
+        {
+            "name": "Acoustic Guitar",
+            "description": "Yamaha FG800 solid spruce top acoustic guitar, natural finish",
+            "price": "$199.99",
+            "categories": ["music", "instruments"]
+        },
+        {
+            "name": "Polaroid Camera",
+            "description": "Polaroid instant film camera",
+            "price": "$149.95",
+            "categories": ["electronics", "photography"]
+        },
+        {
+            "name": "Retro Sneakers",
+            "description": "high-top sneakers with retro colorblock design",
+            "price": "$89.00",
+            "categories": ["clothing", "footwear", "vintage"]
+        },
+        {
+            "name": "Handmade Ceramic Mug",
+            "description": "Hand-thrown stoneware coffee mug, holds 12oz",
+            "price": "$28.00",
+            "categories": ["kitchen", "handmade"]
+        },
+        {
+            "name": "Wooden Chess Set",
+            "description": "chess board with hand-carved weighted pieces",
+            "price": "$95.00",
+            "categories": ["games", "handmade", "collectibles"]
+        },
+        {
+            "name": "Scented Soy Candle",
+            "description": "lavender and vanilla soy candle, 40-hour burn time",
+            "price": "$18.50",
+            "categories": ["home decor", "handmade"]
+        },
+        {
+            "name": "Vintage Denim Jacket",
+            "description": "1990s Levi's denim jacket wit brass buttons, size M",
+            "price": "$65.00",
+            "categories": ["clothing", "vintage", "outerwear"]
+        }
+    ];
+
+    var productsJSON = JSON.stringify(products, null, 2);
+
+    document.write("<pre>" + productsJSON + "</pre>");
+</script>
+
+</body>
+</html>

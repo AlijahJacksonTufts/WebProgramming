@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <h1>Product Catalog</h1>
+
+    <button id="loadBtn">Load Products</button>
+
+    <div class="filter-bar" id="filterBar" style="display:none;">
+        <select id="categorySelect"></select>
+        <button id="filterBtn">Filter</button>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        // Store products globally so the filter button can access them
+        var allProducts = [];
+
+        // On page load, read the JSON to populate the selected element
+        $.get("json/products.json", (data) => {
+            allProducts = typeof data === "string" ? JSON.parse(data) : data;
+
+            // Collect unique categories from all the products
+            var categories = [];
+            for (var i = 0; i < allProducts.length; i++) {
+                for (var j = 0; j < allProducts[i].categories.length; j++) {
+                    var cat = allProducts[i].categories[j];
+                    if (categories.indexOf(cat) === -1) {
+                        categories.push(cat);
+                    }
+                }
+            }
+            categories.sort();
+
+            // Fills in the select dropdown with the categories
+            var selectEl = document.getElementById("categorySelect");
+            for (var k = 0; k < categories.length; k++) {
+                var option = document.createElement("option");
+                option.value = categories[k];
+                option.textContent = categories[k];
+                selectEl.appendChild(option);
+            }
+        });
+
+        function poppulateFields(tag){
+            var html = "";
+            // Loops through the entire products length and populates the product item
+            for (var i = 0; i < allProducts.length; i++) {
+                var p = allProducts[i];
+                var tags = "";
+                // Sub loop for tag items and concats them together
+                let hasTag = false;
+                for (var j = 0; j < p.categories.length; j++) {
+                    if(tag == p.categories[j]) hasTag = p.categories[j];
+                    tags += '<span class="category-tag">' + p.categories[j] + '</span>';
+                }
+                if(tag != null && hasTag) return;
+                html += '<div class="product-card">';
+                html += '<p class="product-name">' + p.name + '</p>';
+                html += '<p class="product-description">' + p.description + '</p>';
+                html += '<p class="product-price">' + p.price + '</p>';
+                html += '<div>' + hasTag + '</div>';
+                html += '</div>';
+            }
+            // Finally set result html to generated element
+            document.getElementById("result").innerHTML = html;
+            //reveal the filter bar
+            document.getElementById("filterBar").style.display = "flex";
+        }
+
+        $("#loadBtn").click(() => {
+            poppulateFields(null);
+        });
+
+        // Filter button – display only product names matching the selected category
+        $("#filterBtn").click(() => {
+            var selected = document.getElementById("categorySelect").value;
+            poppulateFields(selected)
+        });
+    </script>
+</body>
+</html>
