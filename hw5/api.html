@@ -17,6 +17,14 @@
             <button id="filterBtn">Filter</button>
         </div>
         <div id="result"></div>
+        <div class="api-info">
+            <ul>
+                <li>The API selected was <strong>DummyJSON</strong> a free REST API that provides realistic fake product data including prices, titles, descriptions, ratings, thumbnails, and tags.</li>
+                <li>I found it from a reddit recommendation and verified through the public API directory at <a href="https://github.com/marcelscruz/public-apis" target="_blank">github.com/marcelscruz/public-apis</a>.</li>
+                <li>The parameters used in the API request were <strong>limit=20</strong> to restrict results to 20 products, and <strong>select=price,title,description,rating,thumbnail,tags</strong> to return only the specific fields needed for the product cards.</li>
+                <li>This API would be helpful when building an e-commerce frontend before a real product database is available, allowing developers to prototype and test product listings, filters, and UI components using realistic placeholder data similar to how I'm using it in this demo.</li>
+            </ul>
+        </div>
         <script>
         var allProducts = [];
 
