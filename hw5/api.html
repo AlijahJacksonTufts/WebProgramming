@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Products</title>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <h1>Product Catalog</h1>
+        <button id="loadBtn">Load All Products</button>
+        <div class="filter-bar" id="filterBar" style="display:none;">
+            <select id="categorySelect"></select>
+            <select id="tagSelect"></select>
+            <button id="filterBtn">Filter</button>
+        </div>
+        <div id="result"></div>
+        <script>
+        var allProducts = [];
+
+        // On page load, call DummyJSON with limit and select params
+        $.get("https://dummyjson.com/products/?limit=20&select=price,title,description,rating,thumbnail,tags", (data) => {
+            allProducts = data.products;
+            updateTags(allProducts);
+        });
+
+        // Fill the tag select dropdown with unique tags
+        function updateTags(allProducts){
+            var tagEl = document.getElementById("tagSelect");
+            tagEl.options.length = 0;
+            var tags = [];
+            for (var i = 0; i < allProducts.length; i++) {
+                for (var j = 0; j < allProducts[i].tags.length; j++) {
+                    var tag = allProducts[i].tags[j];
+                    if (tags.indexOf(tag) === -1) {
+                        tags.push(tag);
+                    }
+                }
+            }
+            tags.sort();
+            tagEl.appendChild(new Option("-- Filter by Tag --", ""));
+            for (var k = 0; k < tags.length; k++) {
+                var option = document.createElement("option");
+                option.value = tags[k];
+                option.textContent = tags[k];
+                tagEl.appendChild(option);
+            }
+        }
+
+        // fetches the category list from DummyJSON to populate category dropdown
+        $.get("https://dummyjson.com/products/category-list", (data) => {
+            var categoryEl = document.getElementById("categorySelect");
+            categoryEl.appendChild(new Option("-- Filter by Category --", ""));
+            for (var i = 0; i < data.length; i++) {
+                var option = document.createElement("option");
+                option.value = data[i];
+                option.textContent = data[i];
+                categoryEl.appendChild(option);
+            }
+        });
+
+        function populateFields(tag) {
+            var html = "";
+            for (var i = 0; i < allProducts.length; i++) {
+                var p = allProducts[i];
+                var tagHTML = "";
+                //checks to see if any tag match
+                var hasTag = false;
+                for (var j = 0; j < p.tags.length; j++) {
+                    if (p.tags[j] == tag) hasTag = true;
+                    tagHTML += '<span class="category-tag">' + p.tags[j] + '</span>';
+                }
+                // If is looking for tag and doenst find a match it skips this
+                if (tag != null && !hasTag) continue;
+                html += '<div class="product-card">';
+                html += '<img src="' + p.thumbnail + '" alt="' + p.title + '">';
+                html += '<div class="product-card-body">';
+                html += '<p class="product-name">' + p.title + '</p>';
+                //only loads full info if not tagged
+                if (!tag) {
+                    html += '<p class="product-description">' + p.description + '</p>';
+                    html += '<div class="product-meta">';
+                    html += '<span class="product-price">$' + p.price + '</span>';
+                    html += '<span class="product-rating">&#9733; ' + p.rating + '</span>';
+                    html += '</div>';
+                    html += '<div class="tag-row">' + tagHTML + '</div>';
+                }
+                html += '</div></div>';
+            }
+            document.getElementById("result").innerHTML = html;
+            document.getElementById("filterBar").style.display = "flex";
+        }
+
+        // Load ALL products
+        $("#loadBtn").click(() => {
+            // Reset both dropdowns
+            document.getElementById("categorySelect").value = "";
+            document.getElementById("tagSelect").value = "";
+            $.get("https://dummyjson.com/products/?limit=20&select=price,title,description,rating,thumbnail,tags", (data) => {
+                allProducts = data.products;
+                updateTags(allProducts);
+                populateFields(null);
+            });
+        });
+
+    
+        $("#filterBtn").click(() => {
+            var selectedCategory = document.getElementById("categorySelect").value;
+            var selectedTag = document.getElementById("tagSelect").value;
+            
+            //if category selected it fetches another request to dummyJSON with category
+            if (selectedCategory) {
+                $.get("https://dummyjson.com/products/category/" + selectedCategory + "?select=price,title,description,rating,thumbnail,tags", (data) => {
+                    allProducts = data.products;
+                    document.getElementById("tagSelect").value = "";
+                    updateTags(allProducts);
+                    populateFields(selectedTag || null);
+                });
+            }
+        });
+    </script>
+    </body>
+</html>

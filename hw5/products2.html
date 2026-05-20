@@ -5,32 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <style> src ="style.css" </style>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
     <h1>Product Catalog</h1>
-
     <button id="loadBtn">Load Products</button>
-
     <div id="result"></div>
-
     <script>
         $("#loadBtn").click(()=> {
             $.get("json/products.json", (data) => {
                 var products = typeof data === "string" ? JSON.parse(data) : data;
-
                 var html = "";
-
+                //Loops through the entrire products length and poppulates the product item
                 for (var i = 0; i < products.length; i++) {
                     var p = products[i];
-
-                    // Build category tags
                     var tags = "";
+                    //sub loop for tag items and concats them together
                     for (var j = 0; j < p.categories.length; j++) {
                         tags += '<span class="category-tag">' + p.categories[j] + '</span>';
                     }
-
                     html += '<div class="product-card">';
                     html += '<p class="product-name">' + p.name + '</p>';
                     html += '<p class="product-description">' + p.description + '</p>';
@@ -38,7 +31,7 @@
                     html += '<div>' + tags + '</div>';
                     html += '</div>';
                 }
-
+                //finally set resut html to generated element
                 document.getElementById("result").innerHTML = html;
             });
         });
