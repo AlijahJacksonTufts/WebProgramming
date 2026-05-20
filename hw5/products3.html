@@ -10,7 +10,7 @@
 <body>
     <h1>Product Catalog</h1>
 
-    <button id="loadBtn">Load Products</button>
+    <button id="loadBtn">Load All Products</button>
 
     <div class="filter-bar" id="filterBar" style="display:none;">
         <select id="categorySelect"></select>
@@ -20,13 +20,11 @@
     <div id="result"></div>
 
     <script>
-        // Store products globally so the filter button can access them
         var allProducts = [];
 
         // On page load, read the JSON to populate the selected element
         $.get("json/products.json", (data) => {
             allProducts = typeof data === "string" ? JSON.parse(data) : data;
-
             // Collect unique categories from all the products
             var categories = [];
             for (var i = 0; i < allProducts.length; i++) {
@@ -38,7 +36,6 @@
                 }
             }
             categories.sort();
-
             // Fills in the select dropdown with the categories
             var selectEl = document.getElementById("categorySelect");
             for (var k = 0; k < categories.length; k++) {
@@ -55,18 +52,22 @@
             for (var i = 0; i < allProducts.length; i++) {
                 var p = allProducts[i];
                 var tags = "";
-                // Sub loop for tag items and concats them together
+                //checks to see if any tag match
                 let hasTag = false;
                 for (var j = 0; j < p.categories.length; j++) {
-                    if(tag == p.categories[j]) hasTag = p.categories[j];
+                    if(p.categories[j] == tag) hasTag = true;
                     tags += '<span class="category-tag">' + p.categories[j] + '</span>';
                 }
-                if(tag != null && hasTag) return;
+                // If is looking for tag and doenst find a match it skips this
+                if(tag != null && !hasTag) continue;
                 html += '<div class="product-card">';
                 html += '<p class="product-name">' + p.name + '</p>';
-                html += '<p class="product-description">' + p.description + '</p>';
-                html += '<p class="product-price">' + p.price + '</p>';
-                html += '<div>' + hasTag + '</div>';
+                //only loads full info if not tagged
+                if(!tag){
+                    html += '<p class="product-description">' + p.description + '</p>';
+                    html += '<p class="product-price">' + p.price + '</p>';
+                    html += '<div>' + tags + '</div>';
+                }
                 html += '</div>';
             }
             // Finally set result html to generated element
@@ -74,15 +75,16 @@
             //reveal the filter bar
             document.getElementById("filterBar").style.display = "flex";
         }
-
+        
+        //Loads ALL entries
         $("#loadBtn").click(() => {
             poppulateFields(null);
         });
 
-        // Filter button – display only product names matching the selected category
+        // only loads filtered entries
         $("#filterBtn").click(() => {
             var selected = document.getElementById("categorySelect").value;
-            poppulateFields(selected)
+            poppulateFields(selected);
         });
     </script>
 </body>
